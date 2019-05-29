@@ -9,7 +9,7 @@ import com.alibaba.fastjson.JSONObject;
  * @author xiong
  * @date 2019-05-28  15:01
  */
-public class JSONSerializer implements Serializer {
+public class JSONSerializerUtil implements Serializer {
     @Override
     public byte getSerializerAlgorithm() {
         return SerializerAlrotithm.JSON;

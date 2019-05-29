@@ -1,6 +1,6 @@
 package im_system.util.Impl;
 
-import im_system.util.JSONSerializer;
+import im_system.util.JSONSerializerUtil;
 
 /**
  * @author xiong
@@ -16,6 +16,6 @@ public interface Serializer {
 
     byte JSON_SERIALIZER = 1;
 
-    Serializer DEFAULT = new JSONSerializer();
+    Serializer DEFAULT = new JSONSerializerUtil();
 
 }

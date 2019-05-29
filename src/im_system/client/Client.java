@@ -1,6 +1,6 @@
 package im_system.client;
 
-import im_system.client.handler.LoginRequestHandler;
+import im_system.client.handler.LoginHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -33,7 +33,7 @@ public class Client {
                 .handler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new LoginRequestHandler());
+                        ch.pipeline().addLast(new LoginHandler());
                     }
                 });
         try {
@@ -43,6 +43,11 @@ public class Client {
             e.printStackTrace();
         }
 
+    }
+
+    public static void main(String[] args) {
+        Client client = new Client("127.0.0.1",9999);
+        client.service();
     }
 
 }

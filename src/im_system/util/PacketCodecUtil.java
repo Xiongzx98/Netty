@@ -15,24 +15,25 @@ import static im_system.util.Impl.Command.LOGIN_REQUEST;
  * @author xiongPacket
  * @date 2019-05-28  15:52
  */
-public class PacketCodec {
+public class PacketCodecUtil {
 
     private static final int MAGIC_NUMBER = 0x88737871;
     private static final Map<Byte, Class<? extends Packet>> packetTypeMap;
     private static final Map<Byte, Serializer> serializerMap;
+    public static PacketCodecUtil INSTANCE = new PacketCodecUtil();
 
     static {
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(LOGIN_REQUEST, LoginRequestPacket.class);
 
         serializerMap = new HashMap<>();
-        Serializer serializer = new JSONSerializer();
+        Serializer serializer = new JSONSerializerUtil();
         serializerMap.put(serializer.getSerializerAlgorithm(), serializer);
     }
 
-    public ByteBuf encode(Packet packet){
+    public ByteBuf encode(ByteBufAllocator alloc, Packet packet){
 
-        ByteBuf byteBuf =ByteBufAllocator.DEFAULT.ioBuffer();
+        ByteBuf byteBuf =alloc.DEFAULT.ioBuffer();
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
 
         byteBuf.writeInt(MAGIC_NUMBER);   //魔数

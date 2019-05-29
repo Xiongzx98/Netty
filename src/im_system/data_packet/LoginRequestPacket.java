@@ -1,5 +1,6 @@
 package im_system.data_packet;
 
+import im_system.data_packet.Packet;
 import im_system.util.Impl.Command;
 
 /**
@@ -9,7 +10,7 @@ import im_system.util.Impl.Command;
 
 public class LoginRequestPacket extends Packet {
 
-    private Integer userID;
+    private String userID;
     private String username;
     private String password;
 
@@ -18,11 +19,11 @@ public class LoginRequestPacket extends Packet {
         return Command.LOGIN_REQUEST;
     }
 
-    public Integer getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(Integer userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 

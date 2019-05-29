@@ -1,6 +1,6 @@
 package im_system.server;
 
-import im_system.server.handler.LoginResponseHandler;
+import im_system.server.handler.LoginHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -37,7 +37,7 @@ public class Server {
                 .childHandler(new ChannelInitializer<EpollSocketChannel>() {
                     @Override
                     protected void initChannel(EpollSocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new LoginResponseHandler());
+                        ch.pipeline().addLast(new LoginHandler());
                     }
                 });
         try {
@@ -49,5 +49,10 @@ public class Server {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
         }
+    }
+
+    public static void main(String[] args) {
+        Server server = new Server(9999);
+        server.service();
     }
 }
