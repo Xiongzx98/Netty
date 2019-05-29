@@ -1,6 +1,6 @@
-package im_system.servver;
+package im_system.server;
 
-import im_system.servver.handler.LoginResponseHandler;
+import im_system.server.handler.LoginResponseHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;

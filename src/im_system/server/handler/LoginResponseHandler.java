@@ -1,4 +1,4 @@
-package im_system.servver.handler;
+package im_system.server.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
