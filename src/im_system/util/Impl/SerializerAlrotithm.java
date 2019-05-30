@@ -10,6 +10,4 @@ public interface SerializerAlrotithm {
 
     byte JSON  = 1;
 
-    Serializer DEFAULT = new JSONSerializerUtil();
-
 }

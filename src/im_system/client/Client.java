@@ -26,8 +26,9 @@ public class Client {
     }
 
     public void service(){
-        bootstrap.channel(NioSocketChannel.class)
-                .option(ChannelOption.SO_TIMEOUT, 5000)
+        bootstrap.group(workGroup)
+                .channel(NioSocketChannel.class)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .option(ChannelOption.TCP_NODELAY, true)
                 .handler(new ChannelInitializer<NioSocketChannel>() {

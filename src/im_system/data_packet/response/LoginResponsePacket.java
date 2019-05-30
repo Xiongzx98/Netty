@@ -1,5 +1,6 @@
-package im_system.data_packet;
+package im_system.data_packet.response;
 
+import im_system.data_packet.Packet;
 import im_system.util.Impl.Command;
 
 /**
@@ -13,7 +14,7 @@ public class LoginResponsePacket extends Packet {
 
     @Override
     public Byte getCommand() {
-        return Command.LOGIN_REQUEST;
+        return Command.LOGIN_RESPONSE;
     }
 
     public String getReson() {

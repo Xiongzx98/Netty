@@ -1,4 +1,4 @@
-package im_system.data_packet;
+package im_system.data_packet.request;
 
 import im_system.data_packet.Packet;
 import im_system.util.Impl.Command;

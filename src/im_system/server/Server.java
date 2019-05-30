@@ -32,12 +32,12 @@ public class Server {
         serverBootstrap.group(bossGroup, workerGroup)
                 .channel(EpollServerSocketChannel.class)
                 .option(ChannelOption.SO_BACKLOG, 1024)
-                .childOption(ChannelOption.TCP_NODELAY, true)
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
+                .childOption(ChannelOption.TCP_NODELAY, true)
                 .childHandler(new ChannelInitializer<EpollSocketChannel>() {
                     @Override
                     protected void initChannel(EpollSocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new LoginHandler());
+                        ch.pipeline().addFirst(new LoginHandler());
                     }
                 });
         try {

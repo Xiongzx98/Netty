@@ -1,8 +1,8 @@
 package im_system.server.handler;
 
 import im_system.data_packet.Packet;
-import im_system.data_packet.LoginRequestPacket;
-import im_system.data_packet.LoginResponsePacket;
+import im_system.data_packet.request.LoginRequestPacket;
+import im_system.data_packet.response.LoginResponsePacket;
 import im_system.util.PacketCodecUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -25,6 +25,7 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
             LoginRequestPacket loginRequestPacket = (LoginRequestPacket)packet;
             LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
             loginResponsePacket.setVersion(packet.getVersion());
+
             if(valid(loginRequestPacket)){
                 loginResponsePacket.setSuccess(true);
             }else {
