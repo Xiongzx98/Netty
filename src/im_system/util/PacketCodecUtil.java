@@ -1,7 +1,8 @@
 package im_system.util;
 
-import im_system.data_packet.request.LoginRequestPacket;
+import com.alibaba.fastjson.JSON;
 import im_system.data_packet.Packet;
+import im_system.data_packet.request.LoginRequestPacket;
 import im_system.data_packet.response.LoginResponsePacket;
 import im_system.util.Impl.Serializer;
 import io.netty.buffer.ByteBuf;
@@ -20,34 +21,29 @@ import static im_system.util.Impl.Command.LOGIN_RESPONSE;
 public class PacketCodecUtil {
 
     private static final int MAGIC_NUMBER = 0x76737865;
-    private static final Map<Byte, Class<? extends Packet>> packetTypeMap;
-    private static final Map<Byte, Serializer> serializerMap;
-    public static PacketCodecUtil INSTANCE = new PacketCodecUtil();
+    public static final PacketCodecUtil INSTANCE = new PacketCodecUtil();
 
-    static {
+    private final Map<Byte, Class<? extends Packet>> packetTypeMap;
+    private final Map<Byte, Serializer> serializerMap;
+
+
+    private PacketCodecUtil() {
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(LOGIN_REQUEST, LoginRequestPacket.class);
-        packetTypeMap.put(LOGIN_RESPONSE,LoginResponsePacket.class);
+        packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializerUtil();
         serializerMap.put(serializer.getSerializerAlgorithm(), serializer);
     }
 
-    /**
-     *
-     * @param alloc
-     * @param packet
-     * @return
-     *
-     *
-     * 自定义协议:  魔数  版本号  序列化算法  指令  数据长度  数据
-     */
-    public ByteBuf encode(ByteBufAllocator alloc, Packet packet){
 
-        ByteBuf byteBuf =alloc.ioBuffer();
+    public ByteBuf encode(ByteBufAllocator byteBufAllocator, Packet packet) {
+        // 1. 创建 ByteBuf 对象
+        ByteBuf byteBuf = byteBufAllocator.ioBuffer();
+        // 2. 序列化 java 对象
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
-
+        // 3. 实际编码过程
         byteBuf.writeInt(MAGIC_NUMBER);
         byteBuf.writeByte(packet.getVersion());
         byteBuf.writeByte(Serializer.DEFAULT.getSerializerAlgorithm());
@@ -58,7 +54,7 @@ public class PacketCodecUtil {
         return byteBuf;
     }
 
-    public Packet decode(ByteBuf byteBuf){
+    public Packet decode(ByteBuf byteBuf) {
         // 跳过 magic number
         byteBuf.skipBytes(4);
 
@@ -87,12 +83,11 @@ public class PacketCodecUtil {
         return null;
     }
 
-    private Serializer getSerializer(byte serializeAlogrithm){
-        return serializerMap.get(serializeAlogrithm);
+    private Serializer getSerializer(byte serializeAlgorithm) {
+        return serializerMap.get(serializeAlgorithm);
     }
 
-    private Class<? extends Packet> getRequestType(byte command){
+    private Class<? extends Packet> getRequestType(byte command) {
         return packetTypeMap.get(command);
     }
-
 }

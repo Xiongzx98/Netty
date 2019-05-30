@@ -1,7 +1,5 @@
 package im_system.util.Impl;
 
-import im_system.util.JSONSerializerUtil;
-
 /**
  * @author xiong
  * @date 2019-05-28  15:00

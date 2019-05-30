@@ -1,7 +1,8 @@
 package im_system.data_packet.response;
 
 import im_system.data_packet.Packet;
-import im_system.util.Impl.Command;
+
+import static im_system.util.Impl.Command.LOGIN_RESPONSE;
 
 /**
  * @author xiong
@@ -9,20 +10,20 @@ import im_system.util.Impl.Command;
  */
 public class LoginResponsePacket extends Packet {
 
-    private String reson;
     private boolean success;
+    private String reason;
 
     @Override
     public Byte getCommand() {
-        return Command.LOGIN_RESPONSE;
+        return LOGIN_RESPONSE;
     }
 
-    public String getReson() {
-        return reson;
+    public String getReason() {
+        return reason;
     }
 
-    public void setReson(String reson) {
-        this.reson = reson;
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public boolean isSuccess() {

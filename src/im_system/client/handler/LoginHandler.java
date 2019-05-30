@@ -1,5 +1,6 @@
 package im_system.client.handler;
 
+import com.alibaba.fastjson.JSON;
 import im_system.data_packet.request.LoginRequestPacket;
 import im_system.data_packet.response.LoginResponsePacket;
 import im_system.data_packet.Packet;
@@ -8,6 +9,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
+import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.UUID;
 
@@ -17,34 +20,68 @@ import java.util.UUID;
  */
 public class LoginHandler extends ChannelInboundHandlerAdapter {
 
+//    @Override
+//    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+//
+//        LoginRequestPacket loginPacket = new LoginRequestPacket();
+//        loginPacket.setUserID(UUID.randomUUID().toString());
+//        loginPacket.setUsername("xiong");
+//        loginPacket.setPassword("pwd");
+//
+//        ByteBuf buffer = PacketCodecUtil.INSTANCE.encode(ctx.alloc(),loginPacket);
+//
+//        System.out.println(buffer.readInt());
+//
+//        ctx.channel().writeAndFlush(buffer);
+//    }
+
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        LoginRequestPacket loginPacket = new LoginRequestPacket();
-        loginPacket.setUserID(UUID.randomUUID().toString());
-        loginPacket.setUsername("xiong");
-        loginPacket.setPassword("pwd");
+    public void channelActive(ChannelHandlerContext ctx) throws Exception{
+//
+        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+        loginRequestPacket.setUserID(UUID.randomUUID().toString());
+        loginRequestPacket.setUsername("ironman");
+        loginRequestPacket.setPassword("loveu3000k");
 
-        ByteBuf buffer = PacketCodecUtil.INSTANCE.encode(ctx.alloc(),loginPacket);
+        byte[] bytes = JSON.toJSONBytes(loginRequestPacket);
 
-        buffer.skipBytes(7);
-        System.out.println("length : " + buffer.readInt());
+        ByteBuf buf = ctx.alloc().ioBuffer();
 
-        ctx.channel().writeAndFlush(buffer);
+        buf.writeInt(0x76737865);
+        buf.writeByte(loginRequestPacket.getVersion());
+        buf.writeByte(1);
+        buf.writeByte(loginRequestPacket.getCommand());
+        buf.writeInt(bytes.length);
+        buf.writeBytes(bytes);
+
+        ctx.channel().writeAndFlush(buf);
+
     }
+
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf responsePacket = (ByteBuf)msg;
+        ByteBuf responseByteBuf = (ByteBuf)msg;
 
-        Packet packet = PacketCodecUtil.INSTANCE.decode(responsePacket);
+//        Packet packet = PacketCodecUtil.INSTANCE.decode(responseByteBuf);
+
+        responseByteBuf.skipBytes(4);
+        responseByteBuf.skipBytes(1);
+        byte serializeAlgorithm = responseByteBuf.readByte();
+        byte command = responseByteBuf.readByte();
+        int length = responseByteBuf.readInt();
+        byte[] bytes = new byte[length];
+        responseByteBuf.readBytes(bytes);
+
+        Packet packet = JSON.parseObject(bytes, LoginResponsePacket.class);
 
         if(packet instanceof LoginResponsePacket){
-            LoginResponsePacket loginResponsePacket = (LoginResponsePacket)packet;
+            LoginResponsePacket responsePacket = (LoginResponsePacket)packet;
 
-            if(loginResponsePacket.isSuccess()){
+            if(responsePacket.isSuccess()){
                 System.out.println(new Date() + ": " + "登录成功！");
             }else{
-                System.out.println(loginResponsePacket.getReson());
+                System.out.println(responsePacket.getReason());
             }
 
         }

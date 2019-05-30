@@ -1,5 +1,6 @@
 package im_system.server.handler;
 
+import com.alibaba.fastjson.JSON;
 import im_system.data_packet.Packet;
 import im_system.data_packet.request.LoginRequestPacket;
 import im_system.data_packet.response.LoginResponsePacket;
@@ -8,6 +9,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import redis.clients.jedis.Jedis;
+
 
 /**
  * @author xiong
@@ -28,16 +30,26 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
 
             if(valid(loginRequestPacket)){
                 loginResponsePacket.setSuccess(true);
+                System.out.println("登陆成功!");
             }else {
                 loginResponsePacket.setSuccess(false);
-                loginResponsePacket.setReson("用户名和密码错误!");
+                loginResponsePacket.setReason("用户名和密码错误!");
             }
 
             ByteBuf buffer = PacketCodecUtil.INSTANCE.encode(ctx.alloc(), loginResponsePacket);
+
+            buffer.skipBytes(4);
+            buffer.skipBytes(1);
+            byte serializeAlgorithm = buffer.readByte();
+            byte command = buffer.readByte();
+            int length = buffer.readInt();
+//            byte[] bytes = new byte[length];
+//            buffer.readBytes(bytes);
+
+            System.out.println(serializeAlgorithm+ " " + command + " " + length);
+
             ctx.channel().writeAndFlush(buffer);
         }
-
-        ctx.channel().writeAndFlush(null);
     }
 
     private boolean valid(LoginRequestPacket loginRequestPacket) {

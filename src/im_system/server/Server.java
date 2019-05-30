@@ -37,7 +37,7 @@ public class Server {
                 .childHandler(new ChannelInitializer<EpollSocketChannel>() {
                     @Override
                     protected void initChannel(EpollSocketChannel ch) throws Exception {
-                        ch.pipeline().addFirst(new LoginHandler());
+                        ch.pipeline().addLast(new LoginHandler());
                     }
                 });
         try {
@@ -52,7 +52,7 @@ public class Server {
     }
 
     public static void main(String[] args) {
-        Server server = new Server(9999);
+        Server server = new Server(33333);
         server.service();
     }
 }
