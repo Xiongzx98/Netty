@@ -1,8 +1,8 @@
-package im_system.data_packet.response;
+package im_system.proto.response_packet;
 
-import im_system.data_packet.Packet;
+import im_system.proto.Packet;
 
-import static im_system.util.Impl.Command.LOGIN_RESPONSE;
+import static im_system.proto.impl.Command.LOGIN_RESPONSE;
 
 /**
  * @author xiong

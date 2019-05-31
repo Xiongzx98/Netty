@@ -1,4 +1,4 @@
-package im_system.util.Impl;
+package im_system.util.impl;
 
 import im_system.util.JSONSerializerUtil;
 
@@ -10,7 +10,7 @@ public interface Serializer {
 
     byte getSerializerAlgorithm();
 
-    byte[] serialize(Object object);
+    String serialize(Object object);
 
     <T> T deserialize(Class<T> clazz, byte[] bytes);
 

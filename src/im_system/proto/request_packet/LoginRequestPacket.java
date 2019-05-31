@@ -1,7 +1,7 @@
-package im_system.data_packet.request;
+package im_system.proto.request_packet;
 
-import im_system.data_packet.Packet;
-import im_system.util.Impl.Command;
+import im_system.proto.Packet;
+import im_system.proto.impl.Command;
 
 /**
  * @author xiong

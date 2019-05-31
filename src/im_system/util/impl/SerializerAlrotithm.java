@@ -1,4 +1,4 @@
-package im_system.util.Impl;
+package im_system.util.impl;
 
 /**
  * @author xiong

@@ -1,4 +1,4 @@
-package im_system.data_packet;
+package im_system.proto;
 
 import com.alibaba.fastjson.annotation.JSONField;
 

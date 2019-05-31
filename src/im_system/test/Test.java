@@ -7,11 +7,7 @@ package im_system.test;
 public class Test {
 
     public static void main(String[] args) {
-//        char[] chs = {'L','I','N','A'};
-//        for(char ch : chs){
-//            System.out.print((int)ch);
-//        }
-        System.out.println(0x76737865);
+
     }
 
 }

@@ -1,7 +1,7 @@
 package im_system.util;
 
-import im_system.util.Impl.Serializer;
-import im_system.util.Impl.SerializerAlrotithm;
+import im_system.util.impl.Serializer;
+import im_system.util.impl.SerializerAlrotithm;
 import com.alibaba.fastjson.JSON;
 
 /**
@@ -16,9 +16,9 @@ public class JSONSerializerUtil implements Serializer {
     }
 
     @Override
-    public byte[] serialize(Object object) {
+    public String serialize(Object object) {
 
-        return JSON.toJSONBytes(object);
+        return JSON.toJSONString(object);
     }
 
     @Override

@@ -1,14 +1,16 @@
 package im_system.server;
 
+import im_system.proto.codec.PacketDecoder;
+import im_system.proto.codec.PacketEncoder;
 import im_system.server.handler.LoginHandler;
+import im_system.server.handler.MessageHandler;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.epoll.EpollSocketChannel;
+
+import java.util.Date;
 
 /**
  * @author xiong
@@ -37,7 +39,11 @@ public class Server {
                 .childHandler(new ChannelInitializer<EpollSocketChannel>() {
                     @Override
                     protected void initChannel(EpollSocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new LoginHandler());
+                        System.out.println(new Date() + " 连接成功...");
+                        ch.pipeline().addLast(new PacketDecoder())
+                                .addLast(new LoginHandler())
+                                .addLast(new MessageHandler())
+                                .addLast(new PacketEncoder());
                     }
                 });
         try {
@@ -55,4 +61,5 @@ public class Server {
         Server server = new Server(33333);
         server.service();
     }
+
 }

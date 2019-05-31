@@ -1,66 +1,43 @@
 package im_system.server.handler;
 
-import com.alibaba.fastjson.JSON;
-import im_system.data_packet.Packet;
-import im_system.data_packet.request.LoginRequestPacket;
-import im_system.data_packet.response.LoginResponsePacket;
-import im_system.util.PacketCodecUtil;
-import io.netty.buffer.ByteBuf;
+import im_system.proto.request_packet.LoginRequestPacket;
+import im_system.proto.response_packet.LoginResponsePacket;
+import im_system.redis.RedisPoll;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
 import redis.clients.jedis.Jedis;
 
+import java.util.Date;
 
 /**
  * @author xiong
- * @date 2019-05-28  18:09
+ * @date 2019-05-31  17:14
  */
-public class LoginHandler extends ChannelInboundHandlerAdapter {
-
+public class LoginHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf requestBytebuf = (ByteBuf)msg;
+    protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket msg) throws Exception {
+        LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
+        loginResponsePacket.setVersion(msg.getVersion());
 
-        Packet packet = PacketCodecUtil.INSTANCE.decode(requestBytebuf);
-
-        if(packet instanceof LoginRequestPacket){
-            LoginRequestPacket loginRequestPacket = (LoginRequestPacket)packet;
-            LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
-            loginResponsePacket.setVersion(packet.getVersion());
-
-            if(valid(loginRequestPacket)){
-                loginResponsePacket.setSuccess(true);
-                System.out.println("登陆成功!");
-            }else {
-                loginResponsePacket.setSuccess(false);
-                loginResponsePacket.setReason("用户名和密码错误!");
-            }
-
-            ByteBuf buffer = PacketCodecUtil.INSTANCE.encode(ctx.alloc(), loginResponsePacket);
-
-            buffer.skipBytes(4);
-            buffer.skipBytes(1);
-            byte serializeAlgorithm = buffer.readByte();
-            byte command = buffer.readByte();
-            int length = buffer.readInt();
-//            byte[] bytes = new byte[length];
-//            buffer.readBytes(bytes);
-
-            System.out.println(serializeAlgorithm+ " " + command + " " + length);
-
-            ctx.channel().writeAndFlush(buffer);
+        if (valid(msg)) {
+            loginResponsePacket.setSuccess(true);
+            System.out.println(new Date() + " 登陆成功!");
+        } else {
+            loginResponsePacket.setSuccess(false);
+            loginResponsePacket.setReason("用户名和密码错误!");
         }
+
+        ctx.channel().writeAndFlush(loginResponsePacket);
     }
 
     private boolean valid(LoginRequestPacket loginRequestPacket) {
         boolean flag = false;
-        Jedis jedis = new Jedis("localhost", 6379);
+        Jedis jedis = RedisPoll.getJedis();
         jedis.connect();
         String pwd = jedis.get(loginRequestPacket.getUsername());
         if(pwd != null && pwd.equals(loginRequestPacket.getPassword()))
             flag = true;
-        jedis.disconnect();
+        RedisPoll.returnJedis(jedis);
         return flag;
     }
-
 }
