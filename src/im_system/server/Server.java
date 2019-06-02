@@ -2,8 +2,10 @@ package im_system.server;
 
 import im_system.proto.codec.PacketDecoder;
 import im_system.proto.codec.PacketEncoder;
+import im_system.server.redis.RedisPoll;
 import im_system.server.handler.LoginHandler;
 import im_system.server.handler.MessageHandler;
+import im_system.server.handler.SplitHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.epoll.EpollEventLoopGroup;
@@ -40,7 +42,9 @@ public class Server {
                     @Override
                     protected void initChannel(EpollSocketChannel ch) throws Exception {
                         System.out.println(new Date() + " 连接成功...");
-                        ch.pipeline().addLast(new PacketDecoder())
+                        ch.pipeline()
+                                .addLast(new SplitHandler())
+                                .addLast(new PacketDecoder())
                                 .addLast(new LoginHandler())
                                 .addLast(new MessageHandler())
                                 .addLast(new PacketEncoder());
@@ -54,6 +58,7 @@ public class Server {
         }finally {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
+            RedisPoll.destroy();
         }
     }
 

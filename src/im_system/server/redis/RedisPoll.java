@@ -1,4 +1,4 @@
-package im_system.redis;
+package im_system.server.redis;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -69,6 +69,12 @@ public class RedisPoll {
     public static void destroy(){
         if(POOL != null){
             POOL.destroy();
+        }
+    }
+
+    public static void returnBrokerQueue(Jedis jedis){
+        if(null != jedis){
+            POOL.returnBrokenResource(jedis);
         }
     }
 }

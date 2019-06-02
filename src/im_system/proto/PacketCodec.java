@@ -20,7 +20,7 @@ import static im_system.proto.impl.Command.*;
  */
 public class PacketCodec {
 
-    private static final int MAGIC_NUMBER = 0x76737865;
+    public static final int MAGIC_NUMBER = 0x76737865;
     public static final PacketCodec INSTANCE = new PacketCodec();
 
     private final Map<Byte, Class<? extends Packet>> packetTypeMap;

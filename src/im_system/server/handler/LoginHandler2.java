@@ -6,7 +6,7 @@ import im_system.proto.request_packet.LoginRequestPacket;
 import im_system.proto.request_packet.MessageRequestPacket;
 import im_system.proto.response_packet.LoginResponsePacket;
 import im_system.proto.response_packet.MessageResponsePacket;
-import im_system.redis.RedisPoll;
+import im_system.server.redis.RedisPoll;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

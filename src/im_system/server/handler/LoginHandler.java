@@ -2,7 +2,7 @@ package im_system.server.handler;
 
 import im_system.proto.request_packet.LoginRequestPacket;
 import im_system.proto.response_packet.LoginResponsePacket;
-import im_system.redis.RedisPoll;
+import im_system.server.redis.RedisPoll;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import redis.clients.jedis.Jedis;
@@ -32,12 +32,20 @@ public class LoginHandler extends SimpleChannelInboundHandler<LoginRequestPacket
 
     private boolean valid(LoginRequestPacket loginRequestPacket) {
         boolean flag = false;
-        Jedis jedis = RedisPoll.getJedis();
-        jedis.connect();
-        String pwd = jedis.get(loginRequestPacket.getUsername());
-        if(pwd != null && pwd.equals(loginRequestPacket.getPassword()))
-            flag = true;
-        RedisPoll.returnJedis(jedis);
+        String pwd = null;
+        Jedis jedis = null;
+        try {
+            jedis = RedisPoll.getJedis();
+            jedis.connect();
+            pwd = jedis.get(loginRequestPacket.getUsername());
+        }catch (Exception e){
+            RedisPoll.returnBrokerQueue(jedis);
+        }finally {
+            if (pwd != null && pwd.equals(loginRequestPacket.getPassword()))
+                flag = true;
+            RedisPoll.returnJedis(jedis);
+        }
+
         return flag;
     }
 }
