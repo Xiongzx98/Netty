@@ -2,6 +2,8 @@ package im_system.server;
 
 import im_system.proto.codec.PacketDecoder;
 import im_system.proto.codec.PacketEncoder;
+import im_system.proto.codec.Split;
+import im_system.server.handler.AuthHandler;
 import im_system.server.redis.RedisPoll;
 import im_system.server.handler.LoginHandler;
 import im_system.server.handler.MessageHandler;
@@ -43,9 +45,10 @@ public class Server {
                     protected void initChannel(EpollSocketChannel ch) throws Exception {
                         System.out.println(new Date() + " 连接成功...");
                         ch.pipeline()
-                                .addLast(new SplitHandler())
+                                .addLast(new Split())
                                 .addLast(new PacketDecoder())
                                 .addLast(new LoginHandler())
+                                .addLast(new AuthHandler())
                                 .addLast(new MessageHandler())
                                 .addLast(new PacketEncoder());
                     }

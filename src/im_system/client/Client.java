@@ -2,6 +2,7 @@ package im_system.client;
 
 import im_system.proto.codec.PacketDecoder;
 import im_system.proto.codec.PacketEncoder;
+import im_system.proto.codec.Split;
 import im_system.proto.request_packet.MessageRequestPacket;
 import im_system.client.handler.LoginHandler;
 import im_system.client.handler.MessageHandler;
@@ -43,7 +44,9 @@ public class Client {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
                         System.out.println(new Date() + " 客户端开始启动...");
-                        ch.pipeline().addLast(new PacketDecoder())
+                        ch.pipeline()
+                                .addLast(new Split())
+                                .addLast(new PacketDecoder())
                                 .addLast(new LoginHandler())
                                 .addLast(new MessageHandler())
                                 .addLast(new PacketEncoder());
@@ -69,17 +72,17 @@ public class Client {
 
     private static void startConsoleThread(Channel channel){
         new Thread(() -> {
-            while (!Thread.interrupted()){
-                if(LoginUtil.hasLogin(channel)){
-                    System.out.println("输入消息发送至服务端: ");
-                    Scanner sc = new Scanner(System.in);
-                    String line = sc.nextLine();
+            while (!Thread.interrupted()) {
+//                if(LoginUtil.hasLogin(channel)){
+                System.out.println("输入消息发送至服务端: ");
+                Scanner sc = new Scanner(System.in);
+                String line = sc.nextLine();
 
-                    MessageRequestPacket packet = new MessageRequestPacket();
-                    packet.setMessage(line);
+                MessageRequestPacket packet = new MessageRequestPacket();
+                packet.setMessage(line);
 
-                    channel.writeAndFlush(packet);
-                }
+                channel.writeAndFlush(packet);
+//                }
             }
         }).start();
     }

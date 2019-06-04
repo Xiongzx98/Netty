@@ -21,6 +21,7 @@ public class SplitHandler extends LengthFieldBasedFrameDecoder {
     protected Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
 
         if(in.readInt() != PacketCodec.MAGIC_NUMBER){
+            ctx.channel().close();
             return null;
         }
 
