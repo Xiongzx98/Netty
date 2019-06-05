@@ -1,4 +1,4 @@
-package im_system.test;
+package other.test;
 
 /**
  * @author xiong

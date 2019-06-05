@@ -10,7 +10,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * @author xiong
@@ -22,7 +21,6 @@ public class LoginHandler2 extends ChannelInboundHandlerAdapter {
     public void channelActive(ChannelHandlerContext ctx){
 
         LoginRequestPacket loginPacket = new LoginRequestPacket();
-        loginPacket.setUserID(UUID.randomUUID().toString());
         loginPacket.setUsername("ironman");
         loginPacket.setPassword("loveu3k");
 

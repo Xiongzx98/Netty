@@ -13,6 +13,7 @@ import java.util.Date;
 public class MessageHandler extends SimpleChannelInboundHandler<MessageResponsePacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageResponsePacket msg) throws Exception {
-        System.out.println(new Date() + " 接收服务器的消息: " + msg.getMessage());
+
+        System.out.println(new Date() + ": 接收[ "+msg.getFromUsername()+" ]的消息: " + msg.getMessage());
     }
 }

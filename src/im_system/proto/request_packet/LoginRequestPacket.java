@@ -10,21 +10,12 @@ import im_system.proto.impl.Command;
 
 public class LoginRequestPacket extends Packet {
 
-    private String userID;
     private String username;
     private String password;
 
     @Override
     public Byte getCommand() {
         return Command.LOGIN_REQUEST;
-    }
-
-    public String getUserID() {
-        return userID;
-    }
-
-    public void setUserID(String userID) {
-        this.userID = userID;
     }
 
     public String getUsername() {

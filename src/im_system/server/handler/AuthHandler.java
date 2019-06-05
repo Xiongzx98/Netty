@@ -1,6 +1,6 @@
 package im_system.server.handler;
 
-import im_system.util.LoginUtil;
+import im_system.util.SessionUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -13,7 +13,7 @@ public class AuthHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-        if(!LoginUtil.hasLogin(ctx.channel())){
+        if(!SessionUtil.hasLogin(ctx.channel())){
             ctx.channel().close();
         }else{
             ctx.pipeline().remove(this);

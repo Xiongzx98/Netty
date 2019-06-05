@@ -10,6 +10,7 @@ import static im_system.proto.impl.Command.LOGIN_RESPONSE;
  */
 public class LoginResponsePacket extends Packet {
 
+    private String username;
     private boolean success;
     private String reason;
 
@@ -32,5 +33,13 @@ public class LoginResponsePacket extends Packet {
 
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

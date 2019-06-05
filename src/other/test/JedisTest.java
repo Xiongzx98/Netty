@@ -1,4 +1,4 @@
-package im_system.test;
+package other.test;
 
 import redis.clients.jedis.Jedis;
 
@@ -13,13 +13,14 @@ public class JedisTest {
          * redis协议RESP(Redis Serialization Protocol)
          * eg:
          */
-        Jedis jedis = new Jedis("localhost", 6379);
+        Jedis jedis = new Jedis("localhost", 63790);
         jedis.connect();
-        String password = jedis.get("IronMan".toLowerCase());
+        boolean flag = jedis.sismember("users","ironman|loveu3k");
 
-        if(password != null){
-            System.out.println(password);
-        }
+        if(flag){
+            System.out.println(flag);
+        }else
+            System.out.println(flag+"----------");
         jedis.disconnect();
     }
 

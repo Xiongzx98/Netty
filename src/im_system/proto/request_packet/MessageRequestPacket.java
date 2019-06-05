@@ -14,13 +14,20 @@ public class MessageRequestPacket extends Packet {
         return MESSAGE_REQUEST;
     }
 
+    private String toUsername;
     private String message;
+
+    public MessageRequestPacket(String toUsername, String message){
+        this.toUsername = toUsername;
+        this.message = message;
+    }
 
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public String getToUsername() {
+        return toUsername;
     }
+
 }

@@ -3,10 +3,11 @@ package im_system.client;
 import im_system.proto.codec.PacketDecoder;
 import im_system.proto.codec.PacketEncoder;
 import im_system.proto.codec.Split;
+import im_system.proto.request_packet.LoginRequestPacket;
 import im_system.proto.request_packet.MessageRequestPacket;
 import im_system.client.handler.LoginHandler;
 import im_system.client.handler.MessageHandler;
-import im_system.util.LoginUtil;
+import im_system.util.SessionUtil;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -71,20 +72,38 @@ public class Client {
     }
 
     private static void startConsoleThread(Channel channel){
+        Scanner sc = new Scanner(System.in);
+        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+
         new Thread(() -> {
             while (!Thread.interrupted()) {
-//                if(LoginUtil.hasLogin(channel)){
-                System.out.println("输入消息发送至服务端: ");
-                Scanner sc = new Scanner(System.in);
-                String line = sc.nextLine();
+                if (!SessionUtil.hasLogin(channel)) {
+                    System.out.print("输入用户名登录: ");
+                    String username = sc.nextLine();
+                    loginRequestPacket.setUsername(username);
 
-                MessageRequestPacket packet = new MessageRequestPacket();
-                packet.setMessage(line);
+                    // 密码使用默认的
+                    System.out.print("输入密码: ");
+                    String pwd = sc.nextLine();
+                    loginRequestPacket.setPassword(pwd);
 
-                channel.writeAndFlush(packet);
-//                }
+                    // 发送登录数据包
+                    channel.writeAndFlush(loginRequestPacket);
+                    waitForLoginResponse();
+                } else {
+                    String toUsername = sc.nextLine();
+                    String message = sc.nextLine();
+                    channel.writeAndFlush(new MessageRequestPacket(toUsername, message));
+                }
             }
         }).start();
+    }
+
+    private static void waitForLoginResponse() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ignored) {
+        }
     }
 
 }

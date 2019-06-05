@@ -7,12 +7,11 @@ import im_system.server.handler.AuthHandler;
 import im_system.server.redis.RedisPoll;
 import im_system.server.handler.LoginHandler;
 import im_system.server.handler.MessageHandler;
-import im_system.server.handler.SplitHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
-import io.netty.channel.epoll.EpollEventLoopGroup;
-import io.netty.channel.epoll.EpollServerSocketChannel;
-import io.netty.channel.epoll.EpollSocketChannel;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.util.Date;
 
@@ -29,21 +28,21 @@ public class Server {
 
     public Server(int port){
         this.port = port;
-        this.bossGroup = new EpollEventLoopGroup();
-        this.workerGroup = new EpollEventLoopGroup();
+        this.bossGroup = new NioEventLoopGroup();
+        this.workerGroup = new NioEventLoopGroup();
         this.serverBootstrap = new ServerBootstrap();
     }
 
     public void service(){
         serverBootstrap.group(bossGroup, workerGroup)
-                .channel(EpollServerSocketChannel.class)
+                .channel(NioServerSocketChannel.class)
                 .option(ChannelOption.SO_BACKLOG, 1024)
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
                 .childOption(ChannelOption.TCP_NODELAY, true)
-                .childHandler(new ChannelInitializer<EpollSocketChannel>() {
+                .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
-                    protected void initChannel(EpollSocketChannel ch) throws Exception {
-                        System.out.println(new Date() + " 连接成功...");
+                    protected void initChannel(NioSocketChannel ch) throws Exception {
+                        System.out.println(new Date() + ": 开始登陆...");
                         ch.pipeline()
                                 .addLast(new Split())
                                 .addLast(new PacketDecoder())

@@ -10,6 +10,7 @@ import static im_system.proto.impl.Command.MESSAGE_RESPONSE;
  */
 public class MessageResponsePacket extends Packet {
 
+    private String fromUsername;
     private String message;
 
     public String getMessage() {
@@ -18,6 +19,14 @@ public class MessageResponsePacket extends Packet {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getFromUsername() {
+        return fromUsername;
+    }
+
+    public void setFromUsername(String fromUsername) {
+        this.fromUsername = fromUsername;
     }
 
     @Override

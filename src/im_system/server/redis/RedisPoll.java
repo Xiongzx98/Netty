@@ -16,7 +16,7 @@ public class RedisPoll {
     //连接redis实例的ip
     private static final String REDIS_ADDRESS = "localhost";
     //连接redis实例的端口
-    private static final int PORT = 6379;
+    private static final int PORT = 63790;
     //多线程环境中,连接实例的最大数,如果设为-1则无上线,建议设置,否则有可能导致资源耗尽
     private static final int MAX_ACTIVE = Runtime.getRuntime().availableProcessors() * 2;
     //在多线程环境中,连接池中最大空闲连接数,单线程环境没有实际意义
