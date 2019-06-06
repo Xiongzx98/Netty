@@ -1,2 +1,0 @@
-set存储用户的基本信息
-    hset usersInfo username pwd|userID
