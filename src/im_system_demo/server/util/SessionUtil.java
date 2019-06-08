@@ -1,8 +1,9 @@
-package im_system_demo.util;
+package im_system_demo.server.util;
 
 import im_system_demo.proto.impl.Attributes;
 import im_system_demo.server.session.Session;
 import io.netty.channel.Channel;
+import io.netty.channel.group.ChannelGroup;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,16 +14,17 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class SessionUtil {
 
-    private static final Map<String, Channel> USERNAME_CHANNEL_MAP = new ConcurrentHashMap<>();
+    private static final Map<String, Channel> USER_MAP = new ConcurrentHashMap<>();
+    private static final Map<String, ChannelGroup> GROUP_MAP = new ConcurrentHashMap<>();
 
     public static void bindSession(Session session, Channel channel){
-        USERNAME_CHANNEL_MAP.put(session.getUsername(), channel);
+        USER_MAP.put(session.getUsername(), channel);
         channel.attr(Attributes.SESSION).set(session);
     }
 
     public static void unBindSession(Channel channel){
         if(hasLogin(channel)){
-            USERNAME_CHANNEL_MAP.remove(getSession(channel).getUsername());
+            USER_MAP.remove(getSession(channel).getUsername());
             channel.attr(Attributes.SESSION).set(null);
         }
     }
@@ -37,6 +39,14 @@ public class SessionUtil {
     }
 
     public static Channel getChannel(String username){
-        return USERNAME_CHANNEL_MAP.get(username);
+        return USER_MAP.get(username);
+    }
+
+    public static void bindChannelGroup(String nickname, ChannelGroup group){
+        GROUP_MAP.put(nickname, group);
+    }
+
+    public static ChannelGroup getChannelGroup(String nickname){
+        return GROUP_MAP.get(nickname);
     }
 }

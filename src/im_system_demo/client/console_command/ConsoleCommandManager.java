@@ -17,16 +17,19 @@ public class ConsoleCommandManager implements ConsoleCommand {
 
     public ConsoleCommandManager(){
         this.consoleCommandMap = new HashMap<>();
-        consoleCommandMap.put("sendToUser", new SendToUserConsoleCommand());
+        consoleCommandMap.put("send to user", new SendToUserConsoleCommand());
         consoleCommandMap.put("logout", new LogoutConsoleCommand());
-        consoleCommandMap.put("creategroup", new CreateGroupConsoleCommand());
+        consoleCommandMap.put("create group", new CreateGroupConsoleCommand());
+        consoleCommandMap.put("join group", new JoinGroupConsoleCommand());
+        consoleCommandMap.put("quit group", new QuitGroupConsoleCommand());
+        consoleCommandMap.put("show group members", new ShowGroupMembersConsoleCommand());
     }
 
 
 
     @Override
     public void exec(Scanner scanner, Channel channel) {
-        String command = scanner.next();
+        String command = scanner.nextLine();
 
         ConsoleCommand consoleCommand = consoleCommandMap.get(command);
 

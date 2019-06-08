@@ -17,8 +17,17 @@ public class MessageRequestPacket extends Packet {
     private String toUsername;
     private String message;
 
+    public MessageRequestPacket(){}
     public MessageRequestPacket(String toUsername, String message){
         this.toUsername = toUsername;
+        this.message = message;
+    }
+
+    public void setToUsername(String toUsername) {
+        this.toUsername = toUsername;
+    }
+
+    public void setMessage(String message) {
         this.message = message;
     }
 

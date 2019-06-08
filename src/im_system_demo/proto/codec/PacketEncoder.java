@@ -1,7 +1,6 @@
 package im_system_demo.proto.codec;
 
 import im_system_demo.proto.Packet;
-import im_system_demo.proto.PacketCodec;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;

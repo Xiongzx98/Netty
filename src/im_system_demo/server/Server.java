@@ -48,6 +48,9 @@ public class Server {
                                 .addLast(new AuthHandler())
                                 .addLast(new MessageHandler())
                                 .addLast(new CreateGroupHandler())
+                                .addLast(new JoinGroupHandler())
+                                .addLast(new QuitGroupHandler())
+                                .addLast(new ShowGroupMembersHandler())
                                 .addLast(new LogoutHandler())
                                 .addLast(new PacketEncoder());
                     }

@@ -4,7 +4,7 @@ import im_system_demo.proto.request_packet.LoginRequestPacket;
 import im_system_demo.proto.response_packet.LoginResponsePacket;
 import im_system_demo.server.session.Session;
 import im_system_demo.server.util.RedisUtil;
-import im_system_demo.util.SessionUtil;
+import im_system_demo.server.util.SessionUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 

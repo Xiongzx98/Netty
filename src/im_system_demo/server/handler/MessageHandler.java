@@ -3,7 +3,7 @@ package im_system_demo.server.handler;
 import im_system_demo.proto.request_packet.MessageRequestPacket;
 import im_system_demo.proto.response_packet.MessageResponsePacket;
 import im_system_demo.server.session.Session;
-import im_system_demo.util.SessionUtil;
+import im_system_demo.server.util.SessionUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

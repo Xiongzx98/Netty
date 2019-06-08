@@ -19,9 +19,12 @@ public class CreateGroupConsoleCommand implements ConsoleCommand {
     public void exec(Scanner scanner, Channel channel) {
         CreateGroupRequestPacket createGroupRequestPacket = new CreateGroupRequestPacket();
 
-        System.out.println("[创建群聊] 输入群员username列表,username之间用“,”隔开:");
-        String usersnameList = scanner.next();
-        createGroupRequestPacket.setUsernameList(Arrays.asList(usersnameList.split(",|，")));
+        System.out.print("[创建群聊] 请输入群昵称: ");
+        String groupName = scanner.nextLine();
+        System.out.print("[创建群聊] 输入群员username列表,username之间用“,”隔开:");
+        String usersnameList = scanner.nextLine();
+        createGroupRequestPacket.setNickname(groupName);
+        createGroupRequestPacket.setUsernameList(Arrays.asList(usersnameList.replaceAll(" ","").split(",|，")));
         channel.writeAndFlush(createGroupRequestPacket);
     }
 }

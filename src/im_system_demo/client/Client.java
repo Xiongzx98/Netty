@@ -2,14 +2,11 @@ package im_system_demo.client;
 
 import im_system_demo.client.console_command.ConsoleCommandManager;
 import im_system_demo.client.console_command.LoginConsoleCommand;
-import im_system_demo.client.handler.CreateGroupHandler;
-import im_system_demo.client.handler.LogoutHandler;
+import im_system_demo.client.handler.*;
 import im_system_demo.proto.codec.PacketDecoder;
 import im_system_demo.proto.codec.PacketEncoder;
 import im_system_demo.proto.codec.Split;
-import im_system_demo.client.handler.LoginHandler;
-import im_system_demo.client.handler.MessageHandler;
-import im_system_demo.util.SessionUtil;
+import im_system_demo.util.LoginUtil;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -53,6 +50,9 @@ public class Client {
                                 .addLast(new LoginHandler())
                                 .addLast(new MessageHandler())
                                 .addLast(new CreateGroupHandler())
+                                .addLast(new JoinGroupHandler())
+                                .addLast(new QuitGroupHandler())
+                                .addLast(new ShowGroupMembersHandler())
                                 .addLast(new LogoutHandler())
                                 .addLast(new PacketEncoder());
                     }
@@ -82,7 +82,7 @@ public class Client {
 
         new Thread(() -> {
             while (!Thread.interrupted()) {
-                if (!SessionUtil.hasLogin(channel)) {
+                if (!LoginUtil.hasLogin(channel)) {
                     loginConsoleCommand.exec(scanner, channel);
                 } else {
                     consoleCommandManager.exec(scanner, channel);

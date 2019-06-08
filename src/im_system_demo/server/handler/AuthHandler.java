@@ -1,6 +1,6 @@
 package im_system_demo.server.handler;
 
-import im_system_demo.util.SessionUtil;
+import im_system_demo.server.util.SessionUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 

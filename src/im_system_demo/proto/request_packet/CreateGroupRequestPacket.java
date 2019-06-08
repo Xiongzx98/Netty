@@ -12,6 +12,7 @@ import static im_system_demo.proto.impl.Command.CRETE_GROUP_REQUEST;
  */
 public class CreateGroupRequestPacket extends Packet {
 
+    private String nickname;
     private List<String> usernameList;
 
     public List<String> getUsernameList() {
@@ -20,6 +21,14 @@ public class CreateGroupRequestPacket extends Packet {
 
     public void setUsernameList(List<String> usernameList) {
         this.usernameList = usernameList;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     @Override

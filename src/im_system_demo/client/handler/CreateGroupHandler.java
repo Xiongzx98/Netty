@@ -11,6 +11,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class CreateGroupHandler extends SimpleChannelInboundHandler<CreateGroupResponsePacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, CreateGroupResponsePacket msg) throws Exception {
-
+        System.out.println("您已成功加入: " + msg.getNickname() + " 群聊!");
+        System.out.println("和您一同在群里的有: " + msg.getUsers());
     }
 }

@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSON;
 
 /**
  * @author xiong
- * @date 2019-05-28  15:01
+ * @date 2019-05-28  22:01
  */
 public class JSONSerializerUtil implements Serializer {
 
