@@ -2,15 +2,16 @@ package im_system_demo.proto.response_packet;
 
 import im_system_demo.proto.Packet;
 
-import static im_system_demo.proto.impl.Command.MESSAGE_RESPONSE;
+import static im_system_demo.proto.impl.Command.GROUP_MESSAGE_RESPONSE;
 
 /**
  * @author xiong
- * @date 2019-05-31  21:49
+ * @date 2019-06-10  09:57
  */
-public class MessageResponsePacket extends Packet {
+public class GroupMessageResponsePacket extends Packet {
 
     private String fromUsername;
+    private String groupNickename;
     private String message;
     private boolean success;
 
@@ -18,8 +19,8 @@ public class MessageResponsePacket extends Packet {
         return success;
     }
 
-    public void setSuccess(boolean flag) {
-        this.success = flag;
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 
     public String getMessage() {
@@ -38,9 +39,16 @@ public class MessageResponsePacket extends Packet {
         this.fromUsername = fromUsername;
     }
 
-    @Override
-    public Byte getCommand() {
-        return MESSAGE_RESPONSE;
+    public String getGroupNickename() {
+        return groupNickename;
     }
 
+    public void setGroupNickename(String groupNickename) {
+        this.groupNickename = groupNickename;
+    }
+
+    @Override
+    public Byte getCommand() {
+        return GROUP_MESSAGE_RESPONSE;
+    }
 }

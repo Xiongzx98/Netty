@@ -14,6 +14,15 @@ public class JoinGroupResponsePacket extends Packet {
     private String groupNickName;
     private boolean success;
     private String reason;
+    private String message;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public String getGroupId() {
         return groupId;

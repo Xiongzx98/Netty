@@ -11,5 +11,9 @@ public interface Attributes {
 
     AttributeKey<Boolean> LOGIN = AttributeKey.newInstance("login");
 
+    AttributeKey<String> CHATTING = AttributeKey.newInstance("chatting");
+
     AttributeKey<Session> SESSION = AttributeKey.newInstance("session");
+
+    AttributeKey<String> CURRENT_GROUP = AttributeKey.newInstance("currentgroup");
 }

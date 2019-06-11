@@ -18,21 +18,21 @@ public class MessageHandler extends SimpleChannelInboundHandler<MessageRequestPa
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageRequestPacket msg) throws Exception {
         Session session = SessionUtil.getSession(ctx.channel());
-        System.out.println(session.getUsername());
 
         MessageResponsePacket messageResponsePacket = new MessageResponsePacket();
         messageResponsePacket.setFromUsername(session.getUsername());
-//        System.out.println(new Date() + ": 收到[ "+ session.getUsername() +" ]消息: " + msg.getMessage());
-        messageResponsePacket.setMessage(msg.getMessage());
 
         Channel toChannel = SessionUtil.getChannel(msg.getToUsername());
 
         if (toChannel != null && SessionUtil.hasLogin(toChannel)) {
+            messageResponsePacket.setSuccess(true);
+            messageResponsePacket.setMessage(msg.getMessage());
             toChannel.writeAndFlush(messageResponsePacket);
         } else {
+            messageResponsePacket.setSuccess(false);
+            messageResponsePacket.setMessage("发送失败");
             System.err.println(new Date()+": [ " + msg.getToUsername() + " ] 不在线，发送失败!");
         }
     }
-
 
 }

@@ -1,5 +1,6 @@
 package im_system_demo.client.handler;
 
+import im_system_demo.client.util.TimeUtil;
 import im_system_demo.proto.response_packet.ShowGroupResponsePacket;
 import im_system_demo.server.session.Session;
 import io.netty.channel.ChannelHandlerContext;
@@ -22,9 +23,9 @@ public class ShowGroupMembersHandler extends SimpleChannelInboundHandler<ShowGro
             for (Session session : members){
                 users.add(session.getUsername());
             }
-            System.out.println(new Date() + " 群聊 " + msg.getNickname() + " 成员有: " + users);
+            System.out.println(TimeUtil.getTime() + " 群聊 " + msg.getNickname() + " 成员有: " + users);
         }else {
-            System.out.println(new Date() + " " + msg.getNickname() + " 查询失败: " + msg.getReason());
+            System.out.println(TimeUtil.getTime() + " " + msg.getNickname() + " 查询失败: " + msg.getReason());
         }
     }
 }

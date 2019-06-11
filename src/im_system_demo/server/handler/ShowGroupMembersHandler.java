@@ -35,7 +35,7 @@ public class ShowGroupMembersHandler extends SimpleChannelInboundHandler<ShowGro
         }else {
             packet.setNickname(nickname);
             packet.setSuccess(false);
-            packet.setReason("为创建此群聊");
+            packet.setReason("未创建此群聊");
         }
 
         ctx.channel().writeAndFlush(packet);

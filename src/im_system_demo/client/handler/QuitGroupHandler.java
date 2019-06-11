@@ -1,5 +1,7 @@
 package im_system_demo.client.handler;
 
+import im_system_demo.client.util.TimeUtil;
+import im_system_demo.client.util.UserUtil;
 import im_system_demo.proto.response_packet.QuitGroupResponsePacket;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -14,9 +16,10 @@ public class QuitGroupHandler extends SimpleChannelInboundHandler<QuitGroupRespo
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, QuitGroupResponsePacket msg) throws Exception {
         if(msg.isSuccess()){
-            System.out.println(new Date() + " 退出群聊 " + msg.getGroupNickname() +" 成功!");
+
+            System.out.println(TimeUtil.getTime() + " 退出群聊 " + msg.getGroupNickname() +" 成功!");
         }else {
-            System.out.println(new Date() + " 退出失败: " + msg.getReason());
+            System.out.println(TimeUtil.getTime() + " 退出失败: " + msg.getReason());
         }
     }
 }

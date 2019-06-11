@@ -7,10 +7,23 @@ package im_system_demo.server.session;
 public class Session {
 
     private String username;
+    private String currentGroupNickename;
+
+    public String getCurrentGroupNickename() {
+        return currentGroupNickename;
+    }
+
+    public void setCurrentGroupNickename(String currentGroupNickename) {
+        this.currentGroupNickename = currentGroupNickename;
+    }
 
     public Session(){}
     public Session(String username){
         this.username = username;
+    }
+    public Session(String username, String currentGroupNickename){
+        this.username = username;
+        this.currentGroupNickename = currentGroupNickename;
     }
 
     public String getUsername() {

@@ -14,12 +14,13 @@ public class JoinGroupConsoleCommand implements ConsoleCommand {
 
     @Override
     public void exec(Scanner scanner, Channel channel) {
-        JoinGroupRequestPacket packet = new JoinGroupRequestPacket();
+        JoinGroupRequestPacket joinGroupRequestPacket = new JoinGroupRequestPacket();
 
         System.out.print("加入的群聊名称: ");
         String nickname = scanner.nextLine();
 
-        packet.setGroupNickname(nickname);
-        channel.writeAndFlush(nickname);
+        joinGroupRequestPacket.setGroupNickname(nickname);
+        channel.writeAndFlush(joinGroupRequestPacket);
+
     }
 }

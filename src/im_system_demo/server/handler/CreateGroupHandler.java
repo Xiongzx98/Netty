@@ -43,8 +43,10 @@ public class CreateGroupHandler extends SimpleChannelInboundHandler<CreateGroupR
         groupPacket.setUsers(users);
 
         group.writeAndFlush(groupPacket);
+
         System.out.println("创群成功: " + groupPacket.getNickname());
         System.out.println("群成员: " + groupPacket.getUsers());
 
+        SessionUtil.bindChannelGroup(nickname, group);
     }
 }

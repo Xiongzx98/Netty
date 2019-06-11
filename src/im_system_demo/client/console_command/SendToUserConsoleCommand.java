@@ -1,6 +1,7 @@
 package im_system_demo.client.console_command;
 
 import im_system_demo.client.console_command.impl.ConsoleCommand;
+import im_system_demo.client.util.TimeUtil;
 import im_system_demo.proto.request_packet.MessageRequestPacket;
 import io.netty.channel.Channel;
 
@@ -16,12 +17,15 @@ public class SendToUserConsoleCommand implements ConsoleCommand {
 
         System.out.print("接收者: ");
         String username = scanner.nextLine();
-        System.out.print("发送信息: ");
-        String message = scanner.nextLine();
-
-        MessageRequestPacket packet = new MessageRequestPacket(username, message);
-
-        channel.writeAndFlush(packet);
+        while (!Thread.interrupted() && username != null) {
+            System.out.print(TimeUtil.getTime() + " -> message to [" + username + "] : ");
+            String message = scanner.nextLine();
+            if(!message.equals("quit")) {
+                MessageRequestPacket packet = new MessageRequestPacket(username, message);
+                channel.writeAndFlush(packet);
+            }else
+                break;
+        }
 
     }
 }

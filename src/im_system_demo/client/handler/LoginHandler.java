@@ -1,11 +1,10 @@
 package im_system_demo.client.handler;
 
+import im_system_demo.client.util.TimeUtil;
+import im_system_demo.client.util.UserUtil;
 import im_system_demo.proto.response_packet.LoginResponsePacket;
-import im_system_demo.util.LoginUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-
-import java.util.Date;
 
 /**
  * @author xiong
@@ -19,10 +18,10 @@ public class LoginHandler extends SimpleChannelInboundHandler<LoginResponsePacke
         String userName = msg.getUsername();
 
         if (msg.isSuccess()) {
-            System.out.println(new Date() + " [" + userName + "] 登录成功");
-            LoginUtil.markAsLogin(ctx.channel());
+            System.out.println(TimeUtil.getTime() + " [" + userName + "] 登录成功");
+            UserUtil.markAsLogin(ctx.channel());
         } else {
-            System.out.println(new Date() + "[" + userName + "] 登录失败，原因：" + msg.getReason());
+            System.out.println(TimeUtil.getTime() + " [" + userName + "] 登录失败，原因：" + msg.getReason());
         }
     }
 
@@ -30,7 +29,5 @@ public class LoginHandler extends SimpleChannelInboundHandler<LoginResponsePacke
     public void channelInactive(ChannelHandlerContext ctx) {
         System.out.println("客户端连接被关闭!");
     }
-
-
 
 }

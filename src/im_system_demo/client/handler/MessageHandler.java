@@ -1,10 +1,9 @@
 package im_system_demo.client.handler;
 
+import im_system_demo.client.util.TimeUtil;
 import im_system_demo.proto.response_packet.MessageResponsePacket;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-
-import java.util.Date;
 
 /**
  * @author xiong
@@ -13,7 +12,10 @@ import java.util.Date;
 public class MessageHandler extends SimpleChannelInboundHandler<MessageResponsePacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageResponsePacket msg) throws Exception {
-
-        System.out.println(new Date() + ": 接收[ "+msg.getFromUsername()+" ]的消息: " + msg.getMessage());
+        if(msg.isSuccess()) {
+            System.out.println(TimeUtil.getTime() + " : " + msg.getMessage());
+        } else{
+            System.out.println(TimeUtil.getTime() + " : " + msg.getMessage());
+        }
     }
 }

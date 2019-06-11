@@ -1,10 +1,10 @@
 package im_system_demo.client.handler;
 
+import im_system_demo.client.util.TimeUtil;
 import im_system_demo.proto.response_packet.JoinGroupResponsePacket;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
-import java.util.Date;
 
 /**
  * @author xiong
@@ -14,9 +14,9 @@ public class JoinGroupHandler extends SimpleChannelInboundHandler<JoinGroupRespo
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, JoinGroupResponsePacket msg) throws Exception {
         if(msg.isSuccess()){
-            System.out.println(new Date() + " 您已成功加入群聊 " + msg.getGroupNickName());
+            System.out.println(TimeUtil.getTime() + " 您已成功加入群聊 " + msg.getGroupNickName());
         }else {
-            System.out.println(new Date() + " 加入群聊 " + msg.getGroupNickName() + " 失败,原因是: " + msg.getReason());
+            System.out.println(TimeUtil.getTime() + " 加入群聊 " + msg.getGroupNickName() + " 失败,原因是: " + msg.getReason());
         }
     }
 }

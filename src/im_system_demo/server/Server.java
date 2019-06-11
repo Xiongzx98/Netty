@@ -51,6 +51,7 @@ public class Server {
                                 .addLast(new JoinGroupHandler())
                                 .addLast(new QuitGroupHandler())
                                 .addLast(new ShowGroupMembersHandler())
+                                .addLast(new GroupMessageHandler())
                                 .addLast(new LogoutHandler())
                                 .addLast(new PacketEncoder());
                     }

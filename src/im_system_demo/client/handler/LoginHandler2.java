@@ -1,5 +1,6 @@
 package im_system_demo.client.handler;
 
+import im_system_demo.client.util.TimeUtil;
 import im_system_demo.proto.codec.PacketCodec;
 import im_system_demo.proto.request_packet.LoginRequestPacket;
 import im_system_demo.proto.response_packet.LoginResponsePacket;
@@ -40,13 +41,13 @@ public class LoginHandler2 extends ChannelInboundHandlerAdapter {
 
             if(responsePacket.isSuccess()){
 
-                System.out.println(new Date() + ": " + "登录成功！");
+                System.out.println(TimeUtil.getTime() + ": " + "登录成功！");
             }else{
                 System.out.println(responsePacket.getReason());
             }
         }else if (packet instanceof MessageResponsePacket) {
             MessageResponsePacket messageResponsePacket = (MessageResponsePacket) packet;
-            System.out.println(new Date() + ": 收到服务端的消息: " + messageResponsePacket.getMessage());
+            System.out.println(TimeUtil.getTime() + ": 收到服务端的消息: " + messageResponsePacket.getMessage());
         }
     }
 }

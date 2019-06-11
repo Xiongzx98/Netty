@@ -15,22 +15,20 @@ public class ConsoleCommandManager implements ConsoleCommand {
 
     private Map<String, ConsoleCommand> consoleCommandMap;
 
-    public ConsoleCommandManager(){
+    public ConsoleCommandManager() {
         this.consoleCommandMap = new HashMap<>();
         consoleCommandMap.put("send to user", new SendToUserConsoleCommand());
-        consoleCommandMap.put("logout", new LogoutConsoleCommand());
         consoleCommandMap.put("create group", new CreateGroupConsoleCommand());
         consoleCommandMap.put("join group", new JoinGroupConsoleCommand());
-        consoleCommandMap.put("quit group", new QuitGroupConsoleCommand());
+        consoleCommandMap.put("send to group", new SendToGroupMessageConsoleCommand());
         consoleCommandMap.put("show group members", new ShowGroupMembersConsoleCommand());
+        consoleCommandMap.put("logout", new LogoutConsoleCommand());
     }
-
-
 
     @Override
     public void exec(Scanner scanner, Channel channel) {
+        System.out.print("chat-> : ");
         String command = scanner.nextLine();
-
         ConsoleCommand consoleCommand = consoleCommandMap.get(command);
 
         if(consoleCommand != null){

@@ -3,10 +3,10 @@ package im_system_demo.client;
 import im_system_demo.client.console_command.ConsoleCommandManager;
 import im_system_demo.client.console_command.LoginConsoleCommand;
 import im_system_demo.client.handler.*;
+import im_system_demo.client.util.UserUtil;
 import im_system_demo.proto.codec.PacketDecoder;
 import im_system_demo.proto.codec.PacketEncoder;
 import im_system_demo.proto.codec.Split;
-import im_system_demo.util.LoginUtil;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -53,6 +53,7 @@ public class Client {
                                 .addLast(new JoinGroupHandler())
                                 .addLast(new QuitGroupHandler())
                                 .addLast(new ShowGroupMembersHandler())
+                                .addLast(new GroupMessageHandler())
                                 .addLast(new LogoutHandler())
                                 .addLast(new PacketEncoder());
                     }
@@ -76,16 +77,16 @@ public class Client {
     }
 
     private static void startConsoleThread(Channel channel){
-        ConsoleCommandManager consoleCommandManager = new ConsoleCommandManager();
+        ConsoleCommandManager consoleCommand = new ConsoleCommandManager();
         LoginConsoleCommand loginConsoleCommand = new LoginConsoleCommand();
         Scanner scanner = new Scanner(System.in);
 
         new Thread(() -> {
             while (!Thread.interrupted()) {
-                if (!LoginUtil.hasLogin(channel)) {
+                if (!UserUtil.hasLogin(channel)) {
                     loginConsoleCommand.exec(scanner, channel);
                 } else {
-                    consoleCommandManager.exec(scanner, channel);
+                    consoleCommand.exec(scanner, channel);
                 }
             }
         }).start();
