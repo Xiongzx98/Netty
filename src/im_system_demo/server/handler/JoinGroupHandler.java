@@ -15,25 +15,21 @@ import io.netty.channel.group.ChannelGroup;
 public class JoinGroupHandler extends SimpleChannelInboundHandler<JoinGroupRequestPacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, JoinGroupRequestPacket msg) throws Exception {
-        String nickname = msg.getGroupNicknamem();
-        System.out.println("-----------------" + nickname);
+        String nickname = msg.getGroupNickname();
         ChannelGroup group = SessionUtil.getChannelGroup(nickname);
-        JoinGroupResponsePacket packet = new JoinGroupResponsePacket();
 
         if(group != null) {
             GroupMessageResponsePacket groupPacket = new GroupMessageResponsePacket();
-            groupPacket.setMessage("欢迎 <"+ SessionUtil.getSession(ctx.channel()).getUsername() +"> 加入 ["+ msg.getGroupNicknamem() +"]");
-            group.writeAndFlush(groupPacket);
             group.add(ctx.channel());
-            packet.setGroupNickName(nickname);
-            packet.setSuccess(true);
-        }else {
-            packet.setGroupNickName(nickname);
-            packet.setSuccess(false);
-            packet.setReason("未创建此群!");
+            groupPacket.setSuccess(true);
+
+            groupPacket.setMessage("欢迎 <"+ SessionUtil.getSession(ctx.channel()).getUsername() +"> 加入 ["+ msg.getGroupNickname() +"]");
+            group.writeAndFlush(groupPacket);
+        } else {
+            JoinGroupResponsePacket joinGroupResponsePacket = new JoinGroupResponsePacket();
+            joinGroupResponsePacket.setSuccess(false);
+            joinGroupResponsePacket.setMessage("未创建此群组");
+            ctx.channel().writeAndFlush(joinGroupResponsePacket);
         }
-
-        ctx.channel().writeAndFlush(packet);
-
     }
 }

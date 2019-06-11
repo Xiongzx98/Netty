@@ -13,7 +13,7 @@ public class GroupMessageHandler extends SimpleChannelInboundHandler<GroupMessag
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, GroupMessageResponsePacket msg) throws Exception {
         if(msg.isSuccess()){
-            System.out.println(TimeUtil.getTime() + " 您接收到来自群聊 [" + msg.getGroupNickename() +"] 的 ["+msg.getFromUsername()+"] 消息: " + msg.getMessage());
+            System.out.println(TimeUtil.getTime() + msg.getMessage());
         }else
             System.out.println(TimeUtil.getTime() + "消息发送失败! " + msg.getMessage());
     }

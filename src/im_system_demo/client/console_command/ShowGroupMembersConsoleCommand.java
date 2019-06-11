@@ -13,12 +13,12 @@ import java.util.Scanner;
 public class ShowGroupMembersConsoleCommand implements ConsoleCommand {
     @Override
     public void exec(Scanner scanner, Channel channel) {
-        ShowGroupRequestPacket packet = new ShowGroupRequestPacket();
+        System.out.print("查看群聊: ");
+        String groupNickname = scanner.nextLine();
 
-        System.out.print("查看群聊成员: ");
-        String nickname = scanner.nextLine();
+        ShowGroupRequestPacket showGroupRequestPacket = new ShowGroupRequestPacket();
+        showGroupRequestPacket.setGroupNickname(groupNickname);
 
-        packet.setGroupNickname(nickname);
-        channel.writeAndFlush(nickname);
+        channel.writeAndFlush(showGroupRequestPacket);
     }
 }

@@ -12,7 +12,9 @@ public class JoinGroupRequestPacket extends Packet {
 
     private String groupNickname;
 
-    public String getGroupNicknamem() {
+    public JoinGroupRequestPacket(){}
+
+    public String getGroupNickname() {
         return groupNickname;
     }
 

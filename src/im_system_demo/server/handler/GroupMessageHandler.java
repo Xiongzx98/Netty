@@ -27,7 +27,8 @@ public class GroupMessageHandler extends SimpleChannelInboundHandler<GroupMessag
 
         if(group != null){
             packet.setFromUsername(SessionUtil.getSession(ctx.channel()).getUsername());
-            packet.setMessage("来自群聊 ["+ msg.getGroupNickname() +"] 中 <"+ packet.getFromUsername() +">"+msg.getMessage());
+            packet.setGroupNickename(nickname);
+            packet.setMessage( " ["+ msg.getGroupNickname() + ":" + packet.getFromUsername() +"]-> " + msg.getMessage());
             packet.setSuccess(true);
             group.add(ctx.channel());
             group.writeAndFlush(packet);
