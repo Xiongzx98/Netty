@@ -2,6 +2,7 @@ package im_system_demo.server.handler;
 
 import im_system_demo.proto.codec.PacketCodec;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 

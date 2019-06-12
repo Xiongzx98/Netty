@@ -45,6 +45,7 @@ public class Client {
                     protected void initChannel(NioSocketChannel ch) throws Exception {
                         System.out.println(new Date() + " 客户端开始启动...");
                         ch.pipeline()
+                                .addLast(new IMIdleStateHandler())
                                 .addLast(new Split())
                                 .addLast(new PacketDecoder())
                                 .addLast(new LoginHandler())
@@ -55,7 +56,8 @@ public class Client {
                                 .addLast(new ShowGroupMembersHandler())
                                 .addLast(new GroupMessageHandler())
                                 .addLast(new LogoutHandler())
-                                .addLast(new PacketEncoder());
+                                .addLast(new PacketEncoder())
+                                .addLast(new HeartBeatHandler());
                     }
                 });
         try {

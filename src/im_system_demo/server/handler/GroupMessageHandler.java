@@ -3,6 +3,7 @@ package im_system_demo.server.handler;
 import im_system_demo.proto.request_packet.GroupMessageRequestPacket;
 import im_system_demo.proto.response_packet.GroupMessageResponsePacket;
 import im_system_demo.server.util.SessionUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -12,11 +13,11 @@ import io.netty.channel.group.ChannelGroup;
  * @date 2019-06-11  13:35
  */
 
-//@ChannelHandler.Sharable
+@ChannelHandler.Sharable
 public class GroupMessageHandler extends SimpleChannelInboundHandler<GroupMessageRequestPacket> {
 
-//    public static GroupMessageHandler INSTANCE = new GroupMessageHandler();
-//    public GroupMessageHandler(){}
+    public static final GroupMessageHandler INSTANCE = new GroupMessageHandler();
+    private GroupMessageHandler(){}
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, GroupMessageRequestPacket msg) throws Exception {
@@ -35,7 +36,7 @@ public class GroupMessageHandler extends SimpleChannelInboundHandler<GroupMessag
         }else {
             packet.setSuccess(false);
             packet.setMessage("未创建此群组!");
-            ctx.channel().writeAndFlush(packet);
+            ctx.writeAndFlush(packet);
         }
 
     }

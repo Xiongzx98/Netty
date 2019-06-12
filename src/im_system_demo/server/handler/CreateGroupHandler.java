@@ -5,6 +5,7 @@ import im_system_demo.proto.response_packet.CreateGroupResponsePacket;
 import im_system_demo.server.util.IDUtil;
 import im_system_demo.server.util.SessionUtil;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -17,7 +18,11 @@ import java.util.List;
  * @author xiong
  * @date 2019-06-06  21:24
  */
+@ChannelHandler.Sharable
 public class CreateGroupHandler extends SimpleChannelInboundHandler<CreateGroupRequestPacket> {
+
+    public static final CreateGroupHandler INSTANCE = new CreateGroupHandler();
+    private CreateGroupHandler(){}
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, CreateGroupRequestPacket msg) throws Exception {

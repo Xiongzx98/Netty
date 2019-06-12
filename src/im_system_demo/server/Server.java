@@ -1,7 +1,6 @@
 package im_system_demo.server;
 
-import im_system_demo.proto.codec.PacketDecoder;
-import im_system_demo.proto.codec.PacketEncoder;
+import im_system_demo.proto.codec.PacketCodecHandler;
 import im_system_demo.proto.codec.Split;
 import im_system_demo.server.handler.*;
 import im_system_demo.server.redis.RedisPoll;
@@ -42,18 +41,13 @@ public class Server {
                     protected void initChannel(NioSocketChannel ch) throws Exception {
                         System.out.println(new Date() + ": 开始登陆...");
                         ch.pipeline()
+                                .addLast(new IMIdleStateHandler())
                                 .addLast(new Split())
-                                .addLast(new PacketDecoder())
-                                .addLast(new LoginHandler())
-                                .addLast(new AuthHandler())
-                                .addLast(new MessageHandler())
-                                .addLast(new CreateGroupHandler())
-                                .addLast(new JoinGroupHandler())
-                                .addLast(new QuitGroupHandler())
-                                .addLast(new ShowGroupMembersHandler())
-                                .addLast(new GroupMessageHandler())
-                                .addLast(new LogoutHandler())
-                                .addLast(new PacketEncoder());
+                                .addLast(PacketCodecHandler.INSTANCE)
+                                .addLast(LoginHandler.INSTANCE)
+                                .addLast(HeartBeatHandler.INSTANCE)
+                                .addLast(AuthHandler.INSTANCE)
+                                .addLast(IMHandler.INSTANCE);
                     }
                 });
         try {

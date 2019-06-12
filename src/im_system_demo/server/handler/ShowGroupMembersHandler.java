@@ -5,6 +5,7 @@ import im_system_demo.proto.response_packet.ShowGroupResponsePacket;
 import im_system_demo.server.session.Session;
 import im_system_demo.server.util.SessionUtil;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -16,7 +17,12 @@ import java.util.List;
  * @author xiong
  * @date 2019-06-06  22:54
  */
+@ChannelHandler.Sharable
 public class ShowGroupMembersHandler extends SimpleChannelInboundHandler<ShowGroupRequestPacket> {
+
+    public static final ShowGroupMembersHandler INSTANCE = new ShowGroupMembersHandler();
+    private ShowGroupMembersHandler(){}
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ShowGroupRequestPacket msg) throws Exception {
         String nickname = msg.getGroupNickname();
@@ -38,6 +44,6 @@ public class ShowGroupMembersHandler extends SimpleChannelInboundHandler<ShowGro
             packet.setReason("未创建此群聊");
         }
 
-        ctx.channel().writeAndFlush(packet);
+        ctx.writeAndFlush(packet);
     }
 }

@@ -5,6 +5,7 @@ import im_system_demo.proto.response_packet.LoginResponsePacket;
 import im_system_demo.server.session.Session;
 import im_system_demo.server.util.RedisUtil;
 import im_system_demo.server.util.SessionUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -15,7 +16,11 @@ import java.util.Date;
  * @author xiong
  * @date 2019-05-31  21:14
  */
+@ChannelHandler.Sharable
 public class LoginHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+
+    public static final LoginHandler INSTANCE = new LoginHandler();
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket msg) throws Exception {
         LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
@@ -32,7 +37,7 @@ public class LoginHandler extends SimpleChannelInboundHandler<LoginRequestPacket
             System.out.println(new Date() + ": 登陆失败!");
         }
 
-        ctx.channel().writeAndFlush(loginResponsePacket);
+        ctx.writeAndFlush(loginResponsePacket);
     }
 
     private boolean valid(LoginRequestPacket loginRequestPacket) {
